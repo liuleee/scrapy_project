@@ -15,7 +15,7 @@ class itcastSpider(scrapy.Spider):
         #通过scrapy自带的xpath匹配出所有来时的根节点列表集合
         teacher_list = response.xpath('//div[@class="li_txt"]')
         #所有老师的列表集合
-        teacherItem = []
+
         #通过根节点集合遍历每项
         for each in teacher_list:
             item = MyspiderItem()
@@ -27,7 +27,7 @@ class itcastSpider(scrapy.Spider):
             item['title'] = title[0]
             item['info'] = info[0]
             teacher_list.append(item)
-        return teacherItem
+            yield item
 
 
 
