@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from tentcent.items import tentcentItem
+from tencentSpi.items import TentcentItem
 
 
 
@@ -16,7 +16,7 @@ class TencentspiderSpider(scrapy.Spider):
     def parse(self, response):
         for each in response.xpath("//tr[@class='even'] | tr[@class='odd']"):
             #初始化模型对象
-            item = tentcentItem()
+            item = TentcentItem()
 
             item['positionName'] = each.xpath("./td[1]/a/text()").extract()[0]
             item['positionLink'] = each.xpath("./td[1]/a/@href").extract()[0]
@@ -32,10 +32,12 @@ class TencentspiderSpider(scrapy.Spider):
             self.offset += 10
         else:
             raise ("结束工作")
-        #请求交给request请求
-        #每次处理完一页的数据之后，重新发送下一页页面请求
-        #self.offset自增10，同时拼接新的url，并请用回调函数parse
-        yeild scrapy.Request(self.url + str(self.offset),callback=self.parse)
+        # 请求交给request请求
+        # 每次处理完一页的数据之后，重新发送下一页页面请求
+        # self.offset自增10，同时拼接新的url，并请用回调函数parse
+        yield scrapy.Request(self.url + str(self.offset),callback=self.parse)
+
+
 
 
 
